@@ -20,7 +20,6 @@ export class ProdutoService {
     });
   }
 
-  // pesquisa por ID
   async findById(id: number): Promise<Produto> {
     const produto = await this.produtoRepository.findOne({
       where: {
@@ -30,7 +29,6 @@ export class ProdutoService {
         categoria: true,
       },
     });
-    // select * from tb_produto where id = 1
     if (!produto) {
       throw new HttpException('produto não encontrada', HttpStatus.NOT_FOUND);
     }
@@ -38,7 +36,6 @@ export class ProdutoService {
     return produto;
   }
 
-  // pesquisa por Titulo
   async findAllByTitulo(titulo: string): Promise<Produto[]> {
     return await this.produtoRepository.find({
       where: {
@@ -50,14 +47,12 @@ export class ProdutoService {
     });
   }
 
-  // insert into tb_produtos(titulo, texto) values ('titulo que eu mandar', 'texto que eu mandar');
   async create(produto: Produto): Promise<Produto> {
     await this.categoriaService.findById(produto.categoria.id);
 
     return await this.produtoRepository.save(produto);
   }
 
-  // atualizar postagens
   async update(produto: Produto): Promise<Produto> {
     await this.findById(produto.id);
 
@@ -66,7 +61,6 @@ export class ProdutoService {
     return await this.produtoRepository.save(produto);
   }
 
-  // deletar produto
   async delete(id: number): Promise<DeleteResult> {
     await this.findById(id);
 
